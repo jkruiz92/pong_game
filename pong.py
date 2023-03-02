@@ -1,3 +1,6 @@
+"""
+This is a python pong game developed by @jkruiz92
+"""
 import pygame
 import random
 import time as tim
@@ -32,6 +35,9 @@ directions = [(-1,0),(-1,1),(-1,-1),(1,0),(1,1),(1,-1)]
 #class constructor
 
 class player(object):
+    """
+    This class define the differents players who plays the game
+    """
     def __init__(self,x,y):
         self.x = x
         self.y = y
@@ -39,6 +45,9 @@ class player(object):
         self.shape = player_shape
         
 class ball(object):
+    """
+    This class define the ball used in the game and his initial direction
+    """
     def __init__(self,x,y,direction,color='white'):
         self.x = x
         self.y = y
@@ -53,7 +62,6 @@ def create_player(x,y):
 def create_ball(x,y,direction):
     return ball(x,y,direction)
     
-
 #window constructor
 
 def draw_game_field(win):
@@ -62,8 +70,6 @@ def draw_game_field(win):
     pygame.draw.line(win,'white',(_top_left_x,_top_left_y-2),(_top_left_x,_top_left_y+_play_height+2),10)
     pygame.draw.line(win,'white',(_top_left_x+_play_width,_top_left_y-2),(_top_left_x+_play_width,_top_left_y+_play_height+2),10)
     pygame.draw.line(win,'green',(_top_left_x+(_play_width/2),_top_left_y-2),(_top_left_x+(_play_width/2),_top_left_y+_play_height+2),10)
-
-    
 
 def draw_grid(win,x,y):
 
@@ -79,15 +85,13 @@ def delete_cell(win,field_colors,pos,long):
     x,y = pos
     for i in range(long):
         field_colors[(x,y+i)] = 'black'
-    
-    
+   
 def change_cell(win,field_colors,pos,color,long):
 
     x,y = pos
     for i in range(long):
         field_colors[(x,y+i)] = color
-
-        
+    
 def paint_cell(win,field_colors):
     
     for pos in field_colors.keys():
@@ -112,8 +116,7 @@ def ball_behaviour(win,field_colors,ball_x,ball_y,p1_x,p1_y,p2_x,p2_y,direction,
         change_cell(win,field_colors,(ball_x,ball_y),color,1)
 
     else:
-
-        
+ 
         if y == 0 and x in(1,-1):
             ball_x += x*-1
             ball_y += y*-1
@@ -137,7 +140,6 @@ def ball_behaviour(win,field_colors,ball_x,ball_y,p1_x,p1_y,p2_x,p2_y,direction,
 
 def verify_ball(x,y, field_colors):
     
-    
     if (x in(-1,20)) or (y in(-1,10)) or (field_colors[(x,y)] != 'black'):
         return False
     else:
@@ -149,31 +151,17 @@ def verify_player(y):
         return False
     else:
         return True
-    
-
-#player movement
-def player_behaviour(player,direction):
-
-    if player == "P1" and direction == "UP":
-
-        return p1_y
-
-    elif player == "P1" and direction == "DOWN":
-        return p1_y
-
-    elif player == "P2" and direction == "UP":
-        return p2_y
-    
-    elif player == "P2" and direction =="DOWN":
-        return p2_y
-
-    else: pass
-        
-    
-
+         
 #main
             
 def game():
+    """
+    Main function of the game.
+    First of all setup the play window screen and draw the visual stuff.
+    Also create players and ball. Finally update the position of ball according
+    to the direction and calculate their robound  against the walls.
+    Finally update the players position because the keyboard input.
+    """
 
     #set up
     window = pygame.display.set_mode((_screen_width,_screen_height))
@@ -216,8 +204,6 @@ def game():
 
     run = True
 
-    
-
     while run:
         
         time += clock.get_rawtime()
@@ -254,7 +240,6 @@ def game():
                     #print(event.key)
                     
                     if event.key == pygame.K_LEFT:
-                        #to change for: p1.y = player_behaviour()
                         pos_ok = verify_player(p1.y)
                         if pos_ok or p1.y == 10-4:
                             delete_cell(window,field_colors,(p1.x,p1.y),4)
@@ -291,6 +276,5 @@ def game():
             pygame.display.update()
 
         
-
 if __name__ == "__main__":
     game()
